@@ -7,7 +7,7 @@ pipeline {
             steps {
                 echo "Configuring the application..."
                 dir('build') {
-                    sh 'cmake -DCMAKE_BUILD_TYPE:STRING=Release ..'
+                    bat 'cmake -DCMAKE_BUILD_TYPE:STRING=Release ..'
                 }
             }
         }
@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo "Building the application..."
                 dir('build') {
-                    sh 'cmake --build .'
+                    bat 'cmake --build .'
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline {
                 echo "Testing the application..."
 
                 dir('build') {
-                    sh 'ctest -T test --no-compress-output'
+                    bat 'ctest -T test --no-compress-output'
                 }
             }
         }
