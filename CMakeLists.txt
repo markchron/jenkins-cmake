@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
 # cmd to check version of CMake $cmake --version
-# Enable testing with CTest
-#enable_testing()
 
 project(hello)
 enable_language(Fortran)
@@ -46,9 +44,14 @@ file(GLOB_RECURSE srcs77 src/*.f)
 add_executable(hello77 ${srcs77})
 
 
-include(CTest)
+# Enable testing with CTest
+enable_testing()
+#include(CTest)
 add_test(test90 hello90)
 add_test(test77 hello77)
+
+## For demonstration purpose, test77 will always fail
+set_tests_properties(test77 PROPERTIES WILL_FAIL ON)
 
 install(TARGETS hello90 hello77
     EXPORT hellotargets

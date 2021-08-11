@@ -63,6 +63,8 @@ Build Directory: build
 Script Generator: Visual Studio 15 2017 Win64   #Compiler on agent
 Build Type: Release
 
+It's a good idea to set the `Clean Build` flag to make the job always start with a clean state. 
+
 * Check 'Console output' for any issue
 
 > Error: Cannot run program "cmake" ... CreateProcess error=2, The system cannot find the file specified
@@ -84,16 +86,25 @@ You also specify the target here, which is typically "install" or "package" via 
 ![configure and build](doc/figures/jenkins-cmake.build.png)
 
 * Add another step that runs the tests via CTest. 
-Add another Build Step, this time "CMake/CPack/CTest Execution" and pick CTest. 
+Add another Build Step, this time "CMake/CPack/CTest Execution" and pick CTest.
+
+Working Directory: build 
+Otherwise, ctest runs under $JENKINS_HOME$/workspace/cmake-demo, then will get `No test configuration file found!`. 
+if using windowns, Arguments: --no-compress-output -T Test || verify > NUL
+if using Unix, Arguments: --no-compress-output -T Test || /usr/bin/true
+
+Running `ctest` with the option `-T Test` will make CTest generate an XML output file in a sub-folder `Testing` inside the `build` folder, which can be picked up by the `xUnit` plug-in in a post-build action then. 
+
 The one quirk with this is that it will let the build fail 
 when CTest returns a non-zero exit code - which it does when any tests fail. 
 Usually, you want the build to become unstable and not failed if that happens. 
 Hence set "1-65535" in the "Ignore exit codes" input.
 ![test](doc/figures/jenkins-cmake.test.png)
-> No test configuration file found!
 
-Remove the 'build' directory, make a new empty 'build' directory and run CMake again
+Finally the `xUnit` plugin must be configured as:
+Add a `Publish xUnit test result report` post-build action and then use the plugin's `Add` button to create a `CTest-Version` test result report. In the `CTest-Version (default) Pattern` enter the file pattern `build/Testing/**/Test.xml`. 
 
+![Post-test](doc/figures/jenkins-cmake.post-test.png)
 
 # Troubleshoot
 > git@github.com: Permission denied (publickey).
