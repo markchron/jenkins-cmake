@@ -75,6 +75,7 @@ specify that in your job. Or make sure cmake is in $PATH on the node.
 
 Clear the folder `C:\Users\Mark\AppData\Local\Jenkins\.jenkins\workspace\cmake-demo\build`
 
+> Manually-specified variables were not used by the project: CMAKE_BUILD_TYPE
 
 * Hit "Add build tool invocation"
 check "Use cmake" to let cmake handle the invocation of your build tool (e.g. make). 
@@ -89,6 +90,10 @@ when CTest returns a non-zero exit code - which it does when any tests fail.
 Usually, you want the build to become unstable and not failed if that happens. 
 Hence set "1-65535" in the "Ignore exit codes" input.
 ![test](doc/figures/jenkins-cmake.test.png)
+> No test configuration file found!
+
+Remove the 'build' directory, make a new empty 'build' directory and run CMake again
+
 
 # Troubleshoot
 > git@github.com: Permission denied (publickey).

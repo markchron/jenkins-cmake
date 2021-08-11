@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 # cmd to check version of CMake $cmake --version
 # Enable testing with CTest
-enable_testing()
+#enable_testing()
+include(CTest)
 
 project(hello)
 enable_language(Fortran)
