@@ -24,7 +24,7 @@ pipeline {
                 echo "Testing the application..."
 
                 dir('build') {
-                    bat 'ctest -T test --no-compress-output'
+                    bat 'ctest --no-compress-output -T Test'
                 }
             }
         }
