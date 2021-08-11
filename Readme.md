@@ -88,7 +88,7 @@ The one quirk with this is that it will let the build fail
 when CTest returns a non-zero exit code - which it does when any tests fail. 
 Usually, you want the build to become unstable and not failed if that happens. 
 Hence set "1-65535" in the "Ignore exit codes" input.
-
+![test](doc/figures/jenkins-cmake.test.png)
 
 # Troubleshoot
 > git@github.com: Permission denied (publickey).

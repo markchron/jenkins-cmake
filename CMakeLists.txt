@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 # cmd to check version of CMake $cmake --version
+# Enable testing with CTest
+enable_testing()
+
 project(hello)
 enable_language(Fortran)
 
@@ -27,6 +30,7 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES "PGI")
 	set(dialect "-Mfreeform -Mdclchk -Mstandard -Mallocatable=03")
 	set(bounds "-C")
 endif()
+
 # CMAKE_Fortran_FLAGS -- used for all builds
 # CMAKE_Fortran_FLAGS_DEBUG --  Used only for debugging build
 # CMAKE_Fortran_FLAGS_RELEASE -- used only for releasing builds
@@ -41,8 +45,6 @@ add_executable(hello90 ${srcs90} )
 file(GLOB_RECURSE srcs77 src/*.f)
 add_executable(hello77 ${srcs77})
 
-# Enable testing with CTest
-enable_testing()
 
 add_test(test90 hello90)
 add_test(test77 hello77)
