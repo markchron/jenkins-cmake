@@ -46,6 +46,49 @@ $ git remote add origin git@github.com:markchron/jenkins-cmake.git
 # Push code into repository
 $ git push -u origin master
 ```
+# Jenkins
+
+## Jenkins + CMake plugin
+* Install plugin: Dashboard -> Manage Jenkins -> Under 'SYstem Configuration' -> Manage Plugins -> Search 'CMake' from the aviable plugins, then install it.
+
+* Create a 'New Item' that has name 'cmake-demo'  with 'FreeStyle'
+* Source code management:
+Git https://github.com/markchron/jenkins-cmake.git
+Credentials: 
+
+* Under _Build_ section, and select 'Add build step' -> CMake Build
+Fill out the build options
+CMake installation : InSearchPath  #"Jenkins finds CMake. Make sure PATH variable links to it."
+Build Directory: build
+Script Generator: Visual Studio 15 2017 Win64   #Compiler on agent
+Build Type: Release
+
+* Check 'Console output' for any issue
+
+> Error: Cannot run program "cmake" ... CreateProcess error=2, The system cannot find the file specified
+
+Add a download-on-demand installation on the global jenkins tool configuration page and
+specify that in your job. Or make sure cmake is in $PATH on the node.
+
+> Error: generator: Visual Studo 15 2017 Win64 
+> Does not match the generator used previously
+
+Clear the folder `C:\Users\Mark\AppData\Local\Jenkins\.jenkins\workspace\cmake-demo\build`
+
+
+* Hit "Add build tool invocation"
+check "Use cmake" to let cmake handle the invocation of your build tool (e.g. make). 
+You also specify the target here, which is typically "install" or "package" via the "–target" switch.
+
+![configure and build](doc/figures/jenkins-cmake.build.png)
+
+* Add another step that runs the tests via CTest. 
+Add another Build Step, this time "CMake/CPack/CTest Execution" and pick CTest. 
+The one quirk with this is that it will let the build fail 
+when CTest returns a non-zero exit code - which it does when any tests fail. 
+Usually, you want the build to become unstable and not failed if that happens. 
+Hence set "1-65535" in the "Ignore exit codes" input.
+
 
 # Troubleshoot
 > git@github.com: Permission denied (publickey).
@@ -58,5 +101,4 @@ Then lists all the SSH keys that are configured on your machine.
 Check to see if they match the one you've uploaded to GitHub. 
 
 Generate an SSH key `ssh-keygen -t rsa -b 4096 -C "email@email.com" ssh-add -K ~/.ssh/id_rsa`
-
 

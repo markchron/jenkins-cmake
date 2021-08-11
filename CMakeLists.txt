@@ -41,6 +41,12 @@ add_executable(hello90 ${srcs90} )
 file(GLOB_RECURSE srcs77 src/*.f)
 add_executable(hello77 ${srcs77})
 
+# Enable testing with CTest
+enable_testing()
+
+add_test(test90 hello90)
+add_test(test77 hello77)
+
 install(TARGETS hello90 hello77
     EXPORT hellotargets
     LIBRARY DESTINATION lib
