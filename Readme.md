@@ -24,7 +24,7 @@ You can use -D flags to override internal variables. For example:
 ```
 build $ cmake -GNinja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_INSTALL_PREFIX=/usr/local ..
 build $ ninja
-
+```
 
 # Git
 
