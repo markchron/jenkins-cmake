@@ -49,7 +49,9 @@ $ git push -u origin master
 # Jenkins
 
 ## Jenkins + CMake plugin
-* Install plugin: Dashboard -> Manage Jenkins -> Under 'SYstem Configuration' -> Manage Plugins -> Search 'CMake' from the aviable plugins, then install it.
+* Install plugin: Dashboard -> Manage Jenkins -> Under 'SYstem Configuration' -> Manage Plugins -> From the aviable plugins, search 
+'CMake'| 'xUnit' . Select them, and 'Install without restart'.
+
 
 * Create a 'New Item' that has name 'cmake-demo'  with 'FreeStyle'
 * Source code management:
