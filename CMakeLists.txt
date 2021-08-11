@@ -51,7 +51,7 @@ add_test(test90 hello90)
 add_test(test77 hello77)
 
 ## For demonstration purpose, test77 will always fail
-set_tests_properties(test77 PROPERTIES WILL_FAIL ON)
+#set_tests_properties(test77 PROPERTIES WILL_FAIL ON)
 
 install(TARGETS hello90 hello77
     EXPORT hellotargets
