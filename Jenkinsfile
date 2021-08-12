@@ -7,7 +7,8 @@ pipeline {
             steps {
                 echo "Configuring the application..."
                 dir('build') {
-                    bat 'cmake -DCMAKE_BUILD_TYPE:STRING=Release ..'
+//                    bat 'cmake -DCMAKE_BUILD_TYPE=Release ..'
+                    bat 'cmake -G "Visual Studio 15 2017 Win64" --clean-first --config release ..'
                 }
             }
         }
