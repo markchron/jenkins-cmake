@@ -32,7 +32,7 @@ jobs:
        os: [ubuntu-latest, macos-latest]
 #       gcc_v: [9, 10, 11] # version of GFortran we want to use
     env:
-      FC: gfortran
+      FC: gfortran-${{matrix.os}}
 #      FC: gfortran-${{ matrix.gcc_v} }
 #      GCC_V: ${{ matrix.gcc_v} }
     
