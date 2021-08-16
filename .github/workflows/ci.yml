@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-       os: [macos-latest] # ubuntu-latest, 
+       os: [macos-latest, ubuntu-latest] #  
 #       gcc_v: [9, 10, 11] # version of GFortran we want to use
 #    env:
 #      FC: gfortran-${{ matrix.gcc_v} }
@@ -56,9 +56,9 @@ jobs:
     - name: Install GFortran macOS
       if: contains( matrix.os, 'macos')
       run: |
-         brew reinstall gcc
          which gfortran
-         brew link gfortran
+         brew reinstall gcc
+         brew unlink gcc && brew link gcc
 #        brew install gcc@{GCC_V} || brew upgrade gcc@{GCC_V} || true
 #        brew link gcc@${GCC_V}
 
