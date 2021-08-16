@@ -1,0 +1,93 @@
+name: CI_windows
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env: 
+ CTEST_TIME_TIMEOUT: "5" #
+ CMAKE_GENERATOR: Ninja
+ 
+jobs:
+  win-build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include: [
+          { msystem: MSYS,    arch: x86_64 },
+          { msystem: MINGW64, arch: x86_64 },
+          { msystem: MINGW32, arch: i686   }
+        ]
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Setup MinGW native environment
+      uses: msys2/setup-msys2@v2
+      if: contains(matrix.msystem, 'MINGW')
+      with:
+        msystem: ${{ matrix.msystem }}
+        update: false
+        install: >-
+          git
+          mingw-w64-${{ matrix.arch }}-gcc
+          mingw-w64-${{ matrix.arch }}-gcc-fortran
+          mingw-w64-${{ matrix.arch }}-cmake
+          mingw-w64-${{ matrix.arch }}-ninja
+#          mingw-w64-${{ matrix.arch }}-python
+#          mingw-w64-${{ matrix.arch }}-python-pip
+#          mingw-w64-${{ matrix.arch }}-python-setuptools
+
+    - name: Setup msys POSIX environment
+      uses: msys2/setup-msys2@v2
+      if: contains(matrix.msystem, 'MSYS')
+      with:
+        msystem: MSYS
+        update: false
+        install: >-
+          git
+          gcc
+          gcc-fortran
+          cmake
+          ninja
+ #         python
+ #         python-pip
+ 
+#    - name: Install fypp
+#      run: pip install fypp
+
+    - run: >-
+        cmake
+        -B build
+        -DCMAKE_BUILD_TYPE=Debug
+        -DCMAKE_Fortran_FLAGS_DEBUG="-Wall -Wextra -Wimplicit-interface -fPIC -g -fcheck=all -fbacktrace"
+        -DCMAKE_INSTALL_PREFIX=$PWD/_dist
+      env:
+        FC: gfortran
+        CC: gcc
+        CXX: g++
+
+    - name: CMake build
+      run: cmake --build build --parallel
+
+    - name: catch build fail
+      run: cmake --build build --verbose --parallel 1
+      if: failure()
+
+    - name: CTest
+      run: ctest --test-dir build --output-on-failure --parallel -V -LE quadruple_precision
+
+    - uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: WindowsCMakeTestlog
+        path: build/Testing/Temporary/LastTest.log
+
+    - name: Install project
+      run: cmake --install build
