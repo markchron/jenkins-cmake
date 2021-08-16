@@ -57,6 +57,7 @@ jobs:
       if: contains( matrix.os, 'macos')
       run: |
          brew install gcc
+         sudo ln -s $(which gfortran) /usr/local/bin/gfortran
 #        brew install gcc@{GCC_V} || brew upgrade gcc@{GCC_V} || true
 #        brew link gcc@${GCC_V}
 
