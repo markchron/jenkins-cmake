@@ -25,14 +25,14 @@ jobs:
     # well on Windows or Mac.  You can convert this to a matrix build if you need
     # cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-    runs-on: ${{matrix.os}}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
        os: [ubuntu-latest, macos-latest]
 #       gcc_v: [9, 10, 11] # version of GFortran we want to use
     env:
-      FC: gfortran-${{matrix.os}}
+      FC: gfortran-${{matrix}}
 #      FC: gfortran-${{ matrix.gcc_v} }
 #      GCC_V: ${{ matrix.gcc_v} }
     
