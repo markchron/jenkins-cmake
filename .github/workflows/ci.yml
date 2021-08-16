@@ -12,11 +12,11 @@ env:
   CTEST_OUTPUT_ON_FAILURE: "ON" # This way we don't need a flag to ctest
   CTEST_PARALLEL_LEVEL: "2" # enable parallel ctest
   CTEST_TIME_TIMEOUT: "5" # some failures hang forever
-  HOMEBREW_NO_ANALYTICS: "ON" # Make Homebrew installation a little quicker
-  HOMEBREW_NO_AUTO_UPDATE: "ON"
-  HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK: "ON"
-  HOMEBREW_NO_GITHUB_API: "ON"
-  HOMEBREW_NO_INSTALL_CLEANUP: "ON"
+#  HOMEBREW_NO_ANALYTICS: "ON" # Make Homebrew installation a little quicker
+#  HOMEBREW_NO_AUTO_UPDATE: "ON"
+#  HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK: "ON"
+#  HOMEBREW_NO_GITHUB_API: "ON"
+#  HOMEBREW_NO_INSTALL_CLEANUP: "ON"
 
 jobs:
   build:
@@ -60,10 +60,10 @@ jobs:
 #        brew install gcc@{GCC_V} || brew upgrade gcc@{GCC_V} || true
 #        brew link gcc@${GCC_V}
 
-    - name: Use GFortran on MacOS
-      run: >
-        cmake -B build
-        -D CMAKE_Fortran_COMPILER="gfortran"
+ #   - name: Use GFortran on MacOS
+ #     run: >
+ #       cmake -B build
+ #       -D CMAKE_Fortran_COMPILER="gfortran"
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -76,7 +76,9 @@ jobs:
     - name: Build and compile
       # Build your program with the given configuration
       run: >
-        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --parallel
+        cmake --build ${{github.workspace}}/build 
+        --config ${{env.BUILD_TYPE}} 
+        --parallel
     
     - name: catch build fail
       run: cmake --build ${{github.workspace}}/build build --verbose --parallel 1
